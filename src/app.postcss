@@ -1,0 +1,78 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=DM+Serif+Display&display=swap");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Modern theme using Skeleton UI */
+@layer base {
+  :root [data-theme="modern"] {
+    --theme-font-family-base: theme("fontFamily.sans");
+    --theme-font-family-heading: theme("fontFamily.heading");
+    --theme-rounded-base: 6px;
+    --theme-rounded-container: 12px;
+    --theme-border-base: 1px;
+  }
+
+  /* Dark mode color adjustments */
+  .dark {
+    --theme-rounded-base: 6px;
+    --theme-rounded-container: 12px;
+    --theme-border-base: 1px;
+    color-scheme: dark;
+  }
+}
+
+/* Base styles */
+html,
+body {
+  @apply h-full overflow-hidden transition-colors duration-200;
+}
+
+/* Typography Adjustments */
+.h1 {
+  @apply font-heading text-4xl leading-tight mb-2;
+}
+
+.h2,
+.h3 {
+  @apply font-heading;
+}
+
+/* Dark mode transitions */
+.card,
+.btn,
+.textarea {
+  @apply transition-colors duration-200;
+}
+
+/* Custom dark mode styles */
+.dark .card {
+  @apply shadow-lg;
+}
+
+.dark .textarea {
+  @apply bg-surface-900;
+}
+
+/* Enhanced Button Styles */
+.btn {
+  @apply font-medium shadow-sm;
+}
+
+.btn.variant-filled-secondary {
+  @apply bg-secondary-500 text-white hover:bg-secondary-600;
+}
+
+.btn.variant-filled-primary {
+  @apply bg-primary-500 text-white hover:bg-primary-600;
+}
+
+.btn.variant-soft {
+  @apply bg-surface-200-700-token hover:bg-surface-300-600-token;
+}
+
+.btn:disabled {
+  @apply opacity-50 cursor-not-allowed;
+}

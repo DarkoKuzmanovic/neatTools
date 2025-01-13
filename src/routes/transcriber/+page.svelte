@@ -103,22 +103,25 @@
   }
 </script>
 
-<div class="space-y-6">
-  <header class="space-y-2 text-center">
+<div class="space-y-6 transcriber-container">
+  <header class="space-y-2 text-center transcriber-header">
     <h1 class="h1">Transcriber</h1>
     <p class="text-lg opacity-75">Convert your audio files to text using AI. Supports various audio formats.</p>
   </header>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 transcriber-main-content">
     <!-- Input Section -->
-    <div class="card p-4 space-y-4">
-      <div class="flex justify-between items-center">
+    <div class="card p-4 space-y-4 transcriber-input-section">
+      <div class="flex justify-between items-center transcriber-input-header">
         <h2 class="h3">Audio Input</h2>
-        <div class="flex gap-2">
-          <button class="btn variant-soft" on:click={toggleSettings} title="AI Settings">
+        <div class="flex gap-2 transcriber-input-buttons">
+          <button class="btn variant-soft transcriber-settings-button" on:click={toggleSettings} title="AI Settings">
             <i class="fas fa-cog text-lg"></i>
           </button>
-          <button class="btn variant-filled-secondary hover:variant-filled-primary" on:click={() => fileInput?.click()}>
+          <button
+            class="btn variant-filled-secondary hover:variant-filled-primary transcriber-upload-button"
+            on:click={() => fileInput?.click()}
+          >
             <i class="fas fa-upload mr-2"></i> Upload File
           </button>
         </div>
@@ -126,12 +129,12 @@
       </div>
 
       {#if showSettings}
-        <div class="card variant-soft p-4 space-y-4">
+        <div class="card variant-soft p-4 space-y-4 transcriber-settings-panel">
           <div class="space-y-2">
             <label class="label">
               <span>System Prompt</span>
               <textarea
-                class="textarea w-full"
+                class="textarea w-full transcriber-system-prompt-textarea"
                 rows="3"
                 bind:value={$systemPrompt}
                 placeholder="Enter system prompt for the AI..."
@@ -141,24 +144,36 @@
           <div class="space-y-2">
             <label class="label">
               <span>Temperature ({$temperature})</span>
-              <input type="range" min="0" max="1" step="0.1" class="range" bind:value={$temperature} />
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                class="range transcriber-temperature-range"
+                bind:value={$temperature}
+              />
             </label>
           </div>
         </div>
       {/if}
 
       <!-- Drag and Drop Area -->
-      <div class="relative" on:dragover={handleDragOver} on:dragleave={handleDragLeave} on:drop={handleDrop}>
+      <div
+        class="relative transcriber-drag-drop-area"
+        on:dragover={handleDragOver}
+        on:dragleave={handleDragLeave}
+        on:drop={handleDrop}
+      >
         <div
           class="h-[625px] w-full rounded-container-token border-2 border-dashed border-surface-500 flex items-center justify-center {dragOver
             ? 'variant-soft-primary'
-            : ''}"
+            : ''} transcriber-drag-drop-zone"
         >
           {#if selectedFile}
-            <div class="text-center">
+            <div class="text-center transcriber-selected-file-info">
               <p class="text-lg font-semibold mb-2">{selectedFile.name}</p>
               <button
-                class="btn variant-filled-secondary hover:variant-filled-primary"
+                class="btn variant-filled-secondary hover:variant-filled-primary transcriber-start-button"
                 on:click={startTranscription}
                 disabled={loading}
               >
@@ -170,7 +185,7 @@
               </button>
             </div>
           {:else}
-            <p class="text-lg font-semibold">
+            <p class="text-lg font-semibold transcriber-drag-drop-prompt">
               <i class="fas fa-file-audio mr-2"></i>
               Drag & drop an audio file here
             </p>
@@ -180,12 +195,12 @@
     </div>
 
     <!-- Output Section -->
-    <div class="card p-4 space-y-4">
-      <div class="flex justify-between items-center">
+    <div class="card p-4 space-y-4 transcriber-output-section">
+      <div class="flex justify-between items-center transcriber-output-header">
         <h2 class="h3">Transcription</h2>
-        <div class="flex gap-2">
+        <div class="flex gap-2 transcriber-output-buttons">
           <button
-            class="btn variant-soft"
+            class="btn variant-soft transcriber-preview-button"
             on:click={togglePreview}
             disabled={!transcription}
             title={showMarkdown ? "Show Plain Text" : "Show Markdown"}
@@ -193,7 +208,7 @@
             <i class="fas fa-code text-lg"></i>
           </button>
           <button
-            class="btn variant-soft"
+            class="btn variant-soft transcriber-download-txt-button"
             on:click={() => downloadTranscription("txt")}
             disabled={!transcription}
             title="Download as TXT"
@@ -201,7 +216,7 @@
             <i class="fas fa-file-alt text-lg"></i>
           </button>
           <button
-            class="btn variant-soft"
+            class="btn variant-soft transcriber-download-md-button"
             on:click={() => downloadTranscription("md")}
             disabled={!transcription}
             title="Download as Markdown"
@@ -212,18 +227,18 @@
       </div>
 
       {#if error}
-        <div class="alert variant-filled-error">
+        <div class="alert variant-filled-error transcriber-error-message">
           <i class="fas fa-exclamation-circle mr-2"></i>
           {error}
         </div>
       {/if}
-      <div class="h-[625px] overflow-auto">
+      <div class="h-[625px] overflow-auto transcriber-output-content">
         {#if loading}
-          <div class="flex items-center justify-center h-full">
+          <div class="flex items-center justify-center h-full transcriber-loading-indicator">
             <i class="fas fa-spinner fa-spin text-4xl"></i>
           </div>
         {:else if transcription}
-          <div class="prose dark:prose-invert">
+          <div class="prose dark:prose-invert transcriber-transcription-output">
             {#if showMarkdown}
               {@html marked(transcription)}
             {:else}
@@ -231,7 +246,7 @@
             {/if}
           </div>
         {:else}
-          <div class="flex items-center justify-center h-full text-surface-500">
+          <div class="flex items-center justify-center h-full text-surface-500 transcriber-empty-state">
             <p>Transcription will appear here</p>
           </div>
         {/if}

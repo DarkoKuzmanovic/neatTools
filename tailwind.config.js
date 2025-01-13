@@ -15,7 +15,7 @@ export default {
         heading: ["DM Serif Display", "serif"],
       },
       colors: {
-        // Light mode colors
+        // --- Vivid Color Scheme ---
         primary: {
           50: "#f0f9ff",
           100: "#e0f2fe",
@@ -29,18 +29,17 @@ export default {
           900: "#0c4a6e",
         },
         secondary: {
-          50: "#f8fafc",
-          100: "#f1f5f9",
-          200: "#e2e8f0",
-          300: "#cbd5e1",
-          400: "#94a3b8",
-          500: "#64748b",
-          600: "#475569",
-          700: "#334155",
-          800: "#1e293b",
-          900: "#0f172a",
+          50: "#fce7f3",
+          100: "#fbcfe8",
+          200: "#f9a8d4",
+          300: "#f472b6",
+          400: "#ec4899",
+          500: "#db2777",
+          600: "#be185d",
+          700: "#9d174d",
+          800: "#831843",
+          900: "#641e38",
         },
-        // Dark mode surface colors
         surface: {
           50: "#f8fafc",
           100: "#f1f5f9",

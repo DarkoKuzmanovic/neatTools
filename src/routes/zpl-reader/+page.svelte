@@ -137,35 +137,43 @@
   });
 </script>
 
-<div class="space-y-6">
-  <header class="space-y-2 text-center">
+<div class="space-y-6 zpl-reader-container">
+  <header class="space-y-2 text-center zpl-reader-header">
     <h1 class="h1">ZPL Reader</h1>
     <p class="text-lg opacity-75">
       Preview and validate ZPL (Zebra Programming Language) code. Preview is automatically rotated for readability.
     </p>
   </header>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 zpl-reader-main-content">
     <!-- Input Section -->
-    <div class="card p-4 space-y-4">
-      <div class="flex justify-between items-center">
+    <div class="card p-4 space-y-4 zpl-reader-input-section">
+      <div class="flex justify-between items-center zpl-reader-input-header">
         <h2 class="h3">ZPL Code</h2>
-        <button class="btn variant-filled-secondary hover:variant-filled-primary" on:click={() => fileInput?.click()}>
+        <button
+          class="btn variant-filled-secondary hover:variant-filled-primary zpl-reader-upload-button"
+          on:click={() => fileInput?.click()}
+        >
           <i class="fas fa-upload mr-2"></i> Upload File
         </button>
         <input type="file" accept=".zpl,.txt" class="hidden" on:change={handleFileInput} bind:this={fileInput} />
       </div>
 
       <!-- Drag and Drop Area -->
-      <div class="relative" on:dragover={handleDragOver} on:dragleave={handleDragLeave} on:drop={handleDrop}>
+      <div
+        class="relative zpl-reader-drag-drop-area"
+        on:dragover={handleDragOver}
+        on:dragleave={handleDragLeave}
+        on:drop={handleDrop}
+      >
         <textarea
-          class="textarea h-[625px] w-full {dragOver ? 'variant-soft-primary' : ''}"
+          class="textarea h-[625px] w-full {dragOver ? 'variant-soft-primary' : ''} zpl-reader-textarea"
           placeholder="Paste your ZPL code here or drag & drop a file..."
           bind:value={$zplCode}
-        ></textarea>
+        />
         {#if dragOver}
           <div
-            class="absolute inset-0 border-2 border-dashed border-primary-500 bg-primary-500/10 rounded-container-token flex items-center justify-center"
+            class="absolute inset-0 border-2 border-dashed border-primary-500 bg-primary-500/10 rounded-container-token flex items-center justify-center zpl-reader-drag-drop-overlay"
           >
             <p class="text-lg font-semibold">
               <i class="fas fa-file-import mr-2"></i>
@@ -177,50 +185,60 @@
     </div>
 
     <!-- Preview Section -->
-    <div class="card p-4 space-y-4">
-      <div class="flex justify-between items-center">
+    <div class="card p-4 space-y-4 zpl-reader-preview-section">
+      <div class="flex justify-between items-center zpl-reader-preview-header">
         <h2 class="h3">Preview</h2>
-        <div class="flex gap-2">
-          <button class="btn variant-soft" on:click={copyToClipboard} disabled={!previewBlob} title="Copy to Clipboard">
+        <div class="flex gap-2 zpl-reader-preview-buttons">
+          <button
+            class="btn variant-soft zpl-reader-copy-button"
+            on:click={copyToClipboard}
+            disabled={!previewBlob}
+            title="Copy to Clipboard"
+          >
             <i class="far fa-clipboard text-lg"></i>
           </button>
-          <button class="btn variant-soft" on:click={downloadPreview} disabled={!previewBlob} title="Download PNG">
+          <button
+            class="btn variant-soft zpl-reader-download-button"
+            on:click={downloadPreview}
+            disabled={!previewBlob}
+            title="Download PNG"
+          >
             <i class="fas fa-download text-lg"></i>
           </button>
-          <button class="btn variant-soft" on:click={zoomOut} title="Zoom Out">
+          <button class="btn variant-soft zpl-reader-zoom-out-button" on:click={zoomOut} title="Zoom Out">
             <i class="fas fa-search-minus text-lg"></i>
           </button>
-          <button class="btn variant-soft" on:click={zoomIn} title="Zoom In">
+          <button class="btn variant-soft zpl-reader-zoom-in-button" on:click={zoomIn} title="Zoom In">
             <i class="fas fa-search-plus text-lg"></i>
           </button>
-          <button class="btn variant-soft" on:click={rotatePreview} title="Rotate">
+          <button class="btn variant-soft zpl-reader-rotate-button" on:click={rotatePreview} title="Rotate">
             <i class="fas fa-sync-alt text-lg"></i>
           </button>
         </div>
       </div>
 
       <div
-        class="bg-surface-100-800-token rounded-container-token h-[625px] overflow-hidden flex items-center justify-center"
+        class="bg-surface-100-800-token rounded-container-token h-[625px] overflow-hidden flex items-center justify-center zpl-reader-preview-window"
       >
         {#if loading}
-          <div class="flex flex-col items-center gap-4">
+          <div class="flex flex-col items-center gap-4 zpl-reader-loading-state">
             <div class="spinner-overlay" />
             <p>Generating preview...</p>
           </div>
         {:else if error}
-          <div class="text-center p-4 space-y-2">
+          <div class="text-center p-4 space-y-2 zpl-reader-error-state">
             <i class="fas fa-exclamation-triangle text-4xl text-error-500"></i>
             <p class="text-error-500">{error}</p>
           </div>
         {:else if previewUrl}
           <div
-            class="relative w-full h-full flex items-center justify-center"
+            class="relative w-full h-full flex items-center justify-center zpl-reader-preview-image-container"
             style="transform: rotate({$rotation}deg) scale({$zoom}); transform-origin: center center;"
           >
             <img src={previewUrl} alt="ZPL Preview" class="max-w-full max-h-full object-contain" />
           </div>
         {:else}
-          <div class="flex items-center justify-center h-full text-center p-4">
+          <div class="flex items-center justify-center h-full text-center p-4 zpl-reader-empty-state">
             <div class="space-y-3">
               <i class="fas fa-tags text-4xl opacity-50"></i>
               <p>Enter ZPL code or upload a file to see the preview</p>

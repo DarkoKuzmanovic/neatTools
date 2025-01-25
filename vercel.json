@@ -7,7 +7,7 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/node@20"
+      "use": "@vercel/node"
     }
   ],
   "regions": ["fra1"],

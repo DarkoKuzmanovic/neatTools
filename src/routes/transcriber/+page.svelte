@@ -1,6 +1,7 @@
 <script lang="ts">
   import { writable } from "svelte/store";
   import { marked } from "marked";
+  import { googleApiKey } from "$lib/stores";
 
   let fileInput: HTMLInputElement;
   let audioElement: HTMLAudioElement;
@@ -11,6 +12,7 @@
   let transcription = "";
   let showMarkdown = false;
   let showSettings = false;
+  let showApiSettings = false;
 
   // AI Settings
   let systemPrompt = writable(
@@ -43,6 +45,10 @@
 
   const startTranscription = async () => {
     if (!selectedFile) return;
+    if (!$googleApiKey) {
+      error = "Please set your Google API key in settings first";
+      return;
+    }
     loading = true;
     error = "";
 
@@ -51,6 +57,7 @@
       formData.append("audio", selectedFile);
       formData.append("systemPrompt", $systemPrompt);
       formData.append("temperature", $temperature.toString());
+      formData.append("apiKey", $googleApiKey);
 
       const response = await fetch("/api/transcribe", {
         method: "POST",
@@ -76,6 +83,10 @@
 
   function toggleSettings() {
     showSettings = !showSettings;
+  }
+
+  function toggleApiSettings() {
+    showApiSettings = !showApiSettings;
   }
 
   function downloadTranscription(format: "txt" | "md") {
@@ -124,6 +135,13 @@
           >
             <i class="fas fa-upload mr-2"></i> Upload File
           </button>
+          <button
+            class="btn variant-soft transcriber-api-settings-button"
+            on:click={toggleApiSettings}
+            title="API Settings"
+          >
+            <i class="fas fa-key text-lg"></i>
+          </button>
         </div>
         <input type="file" accept="audio/*" class="hidden" on:change={handleFileInput} bind:this={fileInput} />
       </div>
@@ -153,6 +171,28 @@
                 bind:value={$temperature}
               />
             </label>
+          </div>
+        </div>
+      {/if}
+
+      {#if showApiSettings}
+        <div class="card variant-soft p-4 space-y-4 transcriber-api-settings-panel">
+          <div class="space-y-2">
+            <label class="label">
+              <span>Google API Key</span>
+              <input
+                type="password"
+                class="input"
+                bind:value={$googleApiKey}
+                placeholder="Enter your Google API key..."
+              />
+            </label>
+            <p class="text-sm opacity-75">
+              Your API key is stored locally in your browser and is never sent to our servers.
+              <a href="https://ai.google.dev/tutorials/setup" target="_blank" rel="noopener noreferrer" class="anchor">
+                Learn how to get an API key
+              </a>
+            </p>
           </div>
         </div>
       {/if}

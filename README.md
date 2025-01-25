@@ -5,6 +5,7 @@ A collection of modern, user-friendly tools built with SvelteKit and Skeleton UI
 ## Features
 
 ### ZPL Reader
+
 - Live preview of ZPL (Zebra Programming Language) code
 - Drag & drop file upload support
 - Real-time preview using Labelary API
@@ -14,6 +15,7 @@ A collection of modern, user-friendly tools built with SvelteKit and Skeleton UI
 - Dark mode support
 
 ### Audio Transcriber
+
 - Audio-to-text transcription using Google's Gemini AI
 - Support for various audio formats
 - Customizable AI settings:
@@ -28,29 +30,34 @@ A collection of modern, user-friendly tools built with SvelteKit and Skeleton UI
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm/pnpm/yarn
-- Google API Key for Gemini AI
+- Google API Key for Gemini AI (user-provided)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/DarkoKuzmanovic/neattools.git
 cd neattools
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env` file in the root directory:
+
 ```env
 GOOGLE_API_KEY=your_google_api_key_here
 ```
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -66,6 +73,7 @@ npm run build
 ```
 
 Preview the production build:
+
 ```bash
 npm run preview
 ```
@@ -91,9 +99,7 @@ npm run preview
 
 ## Environment Variables
 
-- `GOOGLE_API_KEY` - Your Google API key for Gemini AI
-- `NODE_ENV` - Development/production environment
-- `ORIGIN` - Application origin URL
+No environment variables are required for deployment as API keys are user-provided.
 
 ## Contributing
 

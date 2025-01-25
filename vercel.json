@@ -11,5 +11,11 @@
     }
   ],
   "regions": ["fra1"],
-  "public": false
+  "public": false,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
 }
